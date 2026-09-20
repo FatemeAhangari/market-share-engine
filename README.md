@@ -10,13 +10,32 @@ This project explores how to turn that workflow into a repeatable decision-suppo
 
 ## Pipeline
 
-**Sources → Normalization → Market-size estimation → Share calculation → Confidence → Report**
+**Sources → Normalization → Market-size estimation → Share calculation → Confidence → Dashboard**
 
 ### Current components
 
 - `data/synthetic_market.csv` — generated monthly Bus/Train market signals
 - `src/estimate_market_size.py` — explainable market-size estimation
 - `src/estimate_share.py` — operator-level share and demand metrics
+- `tests/test_estimation.py` — data-quality validation tests
+- `dashboard/app.py` — interactive Streamlit dashboard
+
+## Dashboard
+
+The dashboard provides:
+
+- Route / mode / operator filters
+- Observed ticket and capacity KPIs
+- Operator market-share comparison
+- Revenue and ticket tables
+- Monthly demand trends
+
+Run locally:
+
+```bash
+pip install -r dashboard/requirements.txt
+streamlit run dashboard/app.py
+```
 
 ## Methodology
 
@@ -28,27 +47,6 @@ The market-size model combines two observable demand signals:
 The current prototype blends these signals using a transparent weighted model and ensures that estimated market volume is not below observed ticket sales.
 
 **Important:** the model is a portfolio prototype, not a validated market-sizing methodology. Its confidence score is a data-quality heuristic, not a statistical confidence interval.
-
-## Example decision metrics
-
-For each route and mode, the system can produce:
-
-- Estimated market tickets
-- Observed tickets
-- Estimated/observed share
-- Load factor
-- Search and booking signals
-- Confidence score
-
-## Run
-
-```bash
-pip install pandas
-python src/estimate_market_size.py
-python src/estimate_share.py
-```
-
-The scripts generate CSV outputs under `data/`.
 
 ## Product thinking
 
@@ -62,10 +60,10 @@ All data in this repository is synthetic/generated for portfolio purposes. It do
 
 ## Next steps
 
-- Add validation tests and data-quality checks
+- Add automated model tests
 - Compare alternative market-size assumptions
 - Add time-series stability analysis
-- Add route-level visual reporting
+- Add confidence/uncertainty visualization
 - Calibrate the model against an external benchmark when available
 
 ## Portfolio focus
